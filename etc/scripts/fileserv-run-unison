@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+echo "compservip: '$(cat /fs/etc/servers/compserv.IP)'" | mustache - /fs/etc/templates/fileserv.prf.mustache > /home/fileserv/.unison/fileserv.prf
+echo "useris:$(whoami)"
+unison fileserv $@ &> /home/fileserv/unison.stderr

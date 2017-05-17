@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+# -r 19  Sydney
+# -r 5 Los Angeles
+# -p 87 1 CPU, 512MB RAM, 125GB storage, $5/month
+# -o 215 Ubuntu 16.0-4 x64
+
+SERVERS=`vultr servers`
+export UNISON_FLAGS=""
+if echo $SERVERS | grep fileserv; then
+    echo "server exists"
+else
+    echo "creating script"
+    vultr script update 63680 -f "$GHC_SYNC_TOP_DIR""etc/scripts/boot-fileserv"
+
+    echo "creating key"
+    vultr sshkey update 5917fd9d67361 -f ~/.ssh/id_rsa.pub
+
+    echo "creating server"
+    vultr server create -n "fileserv" -r 5 -p 87 -o 215 -k "5917fd9d67361" -s 63680 --hostname="sharni" --private-networking=true --notify-activate=true
+    export UNISON_FLAGS="$UNISON_FLAGS -ignorearchives"
+fi
+while : ; do
+    DEETS=$(vultr servers | grep fileserv)
+    echo $DEETS
+    IP=$(echo $DEETS | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
+    ID=$(echo $DEETS | grep -Eo "^[^ ]+")
+    if [[ "$IP" != "0.0.0.0" ]]; then
+       break
+    fi
+done
+echo "IP: $IP"
+echo "ID: $ID"
+echo $IP > "$GHC_SYNC_TOP_DIR""etc/servers/fileserv.IP"
+echo $ID > "$GHC_SYNC_TOP_DIR""etc/servers/fileserv.ID"
+
+echo "starting unison"
+while : ; do
+    cat << EOF | mustache - "$GHC_SYNC_TOP_DIR""etc/templates/local.prf.mustache" > ~/.unison/local.prf
+topdir: $GHC_SYNC_TOP_DIR
+fileservip: $(cat "$GHC_SYNC_TOP_DIR""etc/servers/fileserv.IP")
+EOF
+    unison local $UNISON_FLAGS
+    sleep 1
+done
