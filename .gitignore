@@ -3,7 +3,6 @@
 !init.sh
 !sync-shell.sh
 !/etc
-/etc/private/
+/etc/private/*
 /etc/servers/*
-/etc/fileserv_rsa.pub
 /etc/scripts/boot-compserv
