@@ -18,7 +18,7 @@ SERVERS=`vultr servers`
 if echo $SERVERS | grep compserv; then
     echo "server exists"
 else
-    create-script-compserv
+    create-script-compserv.sh
     echo "creating server"
     vultr server create -n "compserv" -r ${REGION} -p ${PLAN} -o 215 -k "5917fd9d67361" --script 63694 --hostname="rona" --private-networking=true --notify-activate=true
     rm ~/.unison/ar*
@@ -41,6 +41,6 @@ echo $ID > "$GHC_SYNC_TOP_DIR""etc/servers/compserv.ID"
 
 echo "starting unison"
 
-cat << EOF | entr -r "$GHC_SYNC_TOP_DIR""scripts/local-run-unison"
-$(echo $GHC_SYNC_TOP_DIR)etc/templates/local.prf.mustache
+cat << EOF | entr -r "$GHC_SYNC_TOP_DIR""etc/scripts/local-run-unison.sh"
+${GHC_SYNC_TOP_DIR}etc/templates/local.prf.mustache
 EOF
