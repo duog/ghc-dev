@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-vultr server delete $(cat "$GHC_SYNC_TOP_DIR""etc/servers/fileserv.ID")
-
-if [ "`echo $?`" -eq "0" ] ; then
-  rm $(echo "$GHC_SYNC_DIR_TOP""etc/servers/fileserv")*
-  rm $(echo "$GHC_SYNC_DIR_TOP""etc/fileserv_rsa.pub")
-fi

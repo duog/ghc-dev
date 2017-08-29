@@ -8,7 +8,10 @@ preferpartial= BelowPath out -> ssh://{{compservip}}//home/doug/ghc-dev
 ignore = Name dist -> ssh://{{compservip}}//home/doug/ghc-dev
 ignore = Name dist-newstyle -> ssh://{{compservip}}//home/doug/ghc-dev
 ignore = Name .stack-work -> ssh://{{compservip}}//home/doug/ghc-dev
-
+ignore = Name .cabal-sandbox -> ssh://{{compservip}}//home/doug/ghc-dev
+ignore = BelowPath measure-ghc/work/install -> ssh://{{compservip}}//home/doug/ghc-dev
+ignore = BelowPath measure-ghc/work/ghc -> ssh://{{compservip}}//home/doug/ghc-dev
+ignore = BelowPath measure-ghc/work/*inner* -> ssh://{{compservip}}//home/doug/ghc-de
 repeat = watch
 batch = true
 perms = 0o1111
@@ -422,7 +425,3 @@ ignore = BelowPath */extra-gcc-opts
 nocreationpartial = BelowPath */sdistprep -> ssh://{{compservip}}//home/doug/ghc-dev
 preferpartial = BelowPath */sdistprep -> ssh://{{compservip}}//home/doug/ghc-dev
 ignore = BelowPath */sdistprep
-
-nocreationpartial = Name *.run -> ssh://{{compservip}}//home/doug/ghc-dev
-preferpartial = Name *.run -> ssh://{{compservip}}//home/doug/ghc-dev
-ignore = Name *.run

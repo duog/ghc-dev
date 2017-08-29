@@ -103,7 +103,7 @@ HADDOCK_DOCS = NO
 # Don't strip debug and other unneeded symbols from libraries and executables.
 STRIP_CMD = :
 
-SRC_HC_OPTS += -H2g
+SRC_HC_OPTS += -H2g +RTS -A128m -RTS
 SplitSections = NO
 define add_mods_flag =
 	$(foreach mod,$(2),$(eval $(basename $(mod))_HC_OPTS += $(1)))

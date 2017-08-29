@@ -98,13 +98,13 @@ stage=2
 #libraries/integer-gmp_CONFIGURE_OPTS += --configure-option=--with-intree-gmp
 
 # Enable pretty hyperlinked sources
-HADDOCK_DOCS = YES
+HADDOCK_DOCS = NO
 #EXTRA_HADDOCK_OPTS += --hyperlinked-source
 
 # Don't strip debug and other unneeded symbols from libraries and executables.
 STRIP_CMD = :
 
-SRC_HC_OPTS += -H2g
+SRC_HC_OPTS += -H2g +RTS -A128m -RTS
 
 define add_mods_flag =
 	$(foreach mod,$(2),$(eval $(basename $(mod))_HC_OPTS += $(1)))
@@ -112,6 +112,4 @@ endef
 
 # $(call add_mods_flag,-fprof-auto,$(wildcard compiler/deSugar/*.hs))
 
-utils/haddock_dist_EXTRA_HC_OPTS += -prof -fprof-auto-top
-SplitSections = NO
-LAX_DEPENDENCIES = NO
+# utils/haddock_dist_EXTRA_HC_OPTS += -prof -fprof-auto-top
